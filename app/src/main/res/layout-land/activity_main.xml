@@ -96,15 +96,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageButton
-            android:id="@+id/likeIcon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_like_24"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+
 
         <TextView
             android:id="@+id/likeCount"
@@ -117,7 +109,7 @@
             app:layout_constraintTop_toTopOf="@id/likeIcon"
             app:layout_constraintBottom_toBottomOf="@id/likeIcon"/>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/shareIcon"
             android:layout_width="20dp"
             android:layout_height="20dp"
@@ -149,7 +141,7 @@
             app:layout_constraintTop_toTopOf="@id/shareIcon"
             app:layout_constraintBottom_toBottomOf="@id/shareIcon"/>
 
-        <ImageButton
+        <ImageView
             android:id="@+id/viewsIcon"
             android:layout_width="20dp"
             android:layout_height="20dp"
