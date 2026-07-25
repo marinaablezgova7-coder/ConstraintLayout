@@ -42,43 +42,45 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left + v.paddingLeft, systemBars.top + v.paddingTop, systemBars.right + v.paddingRight, systemBars.bottom + v.paddingBottom)
+            v.setPadding(
+                systemBars.left + v.paddingLeft,
+                systemBars.top + v.paddingTop,
+                systemBars.right + v.paddingRight,
+                systemBars.bottom + v.paddingBottom
+            )
             insets
         }
 
-        viewModel.data.observe(this){ post ->
-
-
-
-        with(binding) {
-            author.text = post.author
-            published.text = post.published
-            content.text = post.content
-            likeCount.text = formatCount(post.likes)
-            shareCount.text = formatCount(post.shares)
-            viewsCount.text = formatCount(post.views)
-            likeIcon?.setImageResource(if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_like_24)
-
-            likeIcon?.setOnClickListener {
-                if (post.likedByMe) post.likes-- else post.likes++
-                post.likedByMe = !post.likedByMe
-                likeIcon?.setImageResource(if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_like_24)
-                likeCount.text = formatCount(post.likes)
-            }
-
-            shareIcon?.setOnClickListener {
-                if (post.sharesByMe) post.shares-- else post.shares++
-                post.sharesByMe = !post.sharesByMe
-                shareCount.text = formatCount(post.shares)
-            }
-
-            viewsIcon?.setOnClickListener {
-                if (post.viewsByMe) post.views-- else post.views++
-                post.viewsByMe = !post.viewsByMe
-                viewsCount.text = formatCount(post.views)
-            }
-
+        binding.likeIcon?.setOnClickListener {
+            viewModel.like()
         }
+
+        binding.shareIcon?.setOnClickListener {
+            viewModel.shares()
+        }
+
+        binding.viewsIcon?.setOnClickListener {
+            viewModel.views()
+        }
+
+        viewModel.data.observe(this) { post ->
+
+            with(binding) {
+                author.text = post.author
+                published.text = post.published
+                content.text = post.content
+
+                likeCount.text = formatCount(post.likes)
+                shareCount.text = formatCount(post.shares)
+                viewsCount.text = formatCount(post.views)
+
+                likeIcon?.setImageResource(
+                    if (post.likedByMe)
+                        R.drawable.ic_liked_24
+                    else
+                        R.drawable.ic_like_24
+                )
+            }
         }
 
     }
