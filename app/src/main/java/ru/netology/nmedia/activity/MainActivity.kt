@@ -1,14 +1,21 @@
 package ru.netology.nmedia.activity
 
 import android.os.Bundle
+import android.view.View
+import android.view.ViewGroup
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import ru.netology.nmedia.R
+import ru.netology.nmedia.adapter.PostAdapter
 import ru.netology.nmedia.databinding.ActivityMainBinding
+import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.viewmodel.PostViewModel
+import androidx.recyclerview.widget.LinearLayoutManager
+
+
 
 private fun formatCount(count: Int): String {
 
@@ -51,37 +58,28 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
-        binding.likeIcon?.setOnClickListener {
-            viewModel.like()
-        }
 
-        binding.shareIcon?.setOnClickListener {
-            viewModel.shares()
-        }
 
-        binding.viewsIcon?.setOnClickListener {
-            viewModel.views()
-        }
 
-        viewModel.data.observe(this) { post ->
-
-            with(binding) {
-                author.text = post.author
-                published.text = post.published
-                content.text = post.content
-
-                likeCount.text = formatCount(post.likes)
-                shareCount.text = formatCount(post.shares)
-                viewsCount.text = formatCount(post.views)
-
-                likeIcon?.setImageResource(
-                    if (post.likedByMe)
-                        R.drawable.ic_liked_24
-                    else
-                        R.drawable.ic_like_24
-                )
+        val adapter = PostAdapter(
+            lileClickListener = {
+                viewModel.likesById(it.id)
+            },
+            shareClickListener = {
+                viewModel.shareById(it.id)
+            },
+            viewsClickListener = {
+                viewModel.viewsById(it.id)
             }
+        )
+
+        binding.main.adapter = adapter
+
+        viewModel.data.observe(this) { posts ->
+            adapter.submitList(posts)
         }
+
+
 
     }
 }
