@@ -3,4 +3,8 @@
     <string name="hello">Hello World!</string>
     <string name="description_post_author_avatar">Post author avatar</string>
     <string name="description_post_menu">Post menu</string>
+    <string name="remove">Remove</string>
+    <string name="content">Content</string>
+    <string name="error_emple_text">Text is blank!</string>
+    <string name="edit">Edit</string>
 </resources>

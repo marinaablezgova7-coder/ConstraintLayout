@@ -3,6 +3,7 @@ package ru.netology.nmedia.activity
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -60,7 +61,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-
         val adapter = PostAdapter(
             lileClickListener = {
                 viewModel.likesById(it.id)
@@ -70,14 +70,46 @@ class MainActivity : AppCompatActivity() {
             },
             viewsClickListener = {
                 viewModel.viewsById(it.id)
+            },
+            onRemoveListenner =  {
+                viewModel.removeById(it.id)
+            },
+            onEditListener = {
+                viewModel.edit(it)
             }
         )
 
-        binding.main.adapter = adapter
-
+        binding.list?.adapter = adapter
         viewModel.data.observe(this) { posts ->
             adapter.submitList(posts)
         }
+
+        binding.save?.setOnClickListener {
+            val content =  binding.content?.text?.toString()
+            if (content.isNullOrBlank()){
+                Toast.makeText(this, (R.string.error_emple_text), Toast.LENGTH_SHORT).show()
+            return@setOnClickListener
+            }
+
+            viewModel.save(content)
+            binding.content.clearFocus()
+            binding.content.setText("")
+        }
+
+        viewModel.edited.observe(this) { post ->
+            if (post.id == 0L) {
+                binding.editGroup.visibility = View.GONE
+                binding.content.setText("")
+            } else {
+                binding.editGroup.visibility = View.VISIBLE
+                binding.content.setText(post.content)
+                binding.content.requestFocus()
+            }
+        }
+        binding.cancelEdit.setOnClickListener {
+            viewModel.cancelEditing()
+        }
+
 
 
 
