@@ -48,16 +48,20 @@
         app:layout_constraintStart_toEndOf="@id/avatar"
         tools:text="@sample/posts.json/data/published" />
 
-    <ImageButton
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/menu"
+        style="@style/Widget.Material3.Button.TextButton.Icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:minWidth="0dp"
+        android:minHeight="0dp"
+        android:insetTop="0dp"
+        android:insetBottom="0dp"
         android:layout_marginBottom="@dimen/common_spacing"
-        android:background="@android:color/transparent"
         android:contentDescription="@string/description_post_menu"
+        app:icon="@drawable/ic_more_vert_24"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_more_vert_24" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.constraintlayout.widget.Barrier
         android:id="@+id/barrier"
@@ -96,48 +100,39 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <ImageButton
-            android:id="@+id/likeIcon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_like_24"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
 
-        <TextView
-            android:id="@+id/likeCount"
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/likeIcon"
+            style="@style/Widget.Material3.Button.TextButton.Icon"
             android:layout_width="wrap_content"
+            android:minWidth="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="10"
-            android:textSize="12sp"
+            android:minHeight="0dp"
+            android:layout_marginTop="16dp"
+            app:buttonTint="@color/like_selector"
+            app:icon="@drawable/ic_like_selector"
+            app:iconTint="@color/like_selector"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:checkable="true"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/shareIcon"
+            style="@style/Widget.Material3.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:minWidth="0dp"
+            android:insetTop="0dp"
+            android:insetBottom="0dp"
+            android:layout_height="wrap_content"
+            android:minHeight="0dp"
+            android:contentDescription="@string/app_name"
+            app:icon="@drawable/ic_share_24"
             app:layout_constraintStart_toEndOf="@id/likeIcon"
             app:layout_constraintTop_toTopOf="@id/likeIcon"
             app:layout_constraintBottom_toBottomOf="@id/likeIcon"/>
 
-        <ImageButton
-            android:id="@+id/shareIcon"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="16dp"
-            android:contentDescription="@string/app_name"
-            android:src="@drawable/ic_share_24"
-            app:layout_constraintStart_toEndOf="@id/likeCount"
-            app:layout_constraintTop_toTopOf="@id/likeIcon"
-            app:layout_constraintBottom_toBottomOf="@id/likeIcon"/>
-
-        <TextView
-            android:id="@+id/shareCount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:text="5"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/shareIcon"
-            app:layout_constraintTop_toTopOf="@id/shareIcon"
-            app:layout_constraintBottom_toBottomOf="@id/shareIcon"/>
 
         <TextView
             android:id="@+id/viewsCount"
