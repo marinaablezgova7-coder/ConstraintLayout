@@ -1,10 +1,12 @@
 package ru.netology.nmedia.activity
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.launch
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -59,23 +61,46 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        val postContract = registerForActivityResult(NewPostContract){ result ->
+           result ?: return@registerForActivityResult
+            viewModel.save((result))
+        }
+        val editPostContract = registerForActivityResult(EditPostContract()) { result ->
+            result ?: return@registerForActivityResult
+            viewModel.edit(result)
+        }
 
 
         val adapter = PostAdapter(
             lileClickListener = {
                 viewModel.likesById(it.id)
             },
-            shareClickListener = {
-                viewModel.shareById(it.id)
+
+            shareClickListener = { post ->
+                val intent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, post.content)
+                    type = "text/plain"
+                }
+
+                val shareIntent = Intent.createChooser(
+                    intent,
+                    getString(R.string.chooser_share_post)
+                )
+
+                startActivity(shareIntent)
             },
+
             viewsClickListener = {
                 viewModel.viewsById(it.id)
             },
-            onRemoveListenner =  {
+
+            onRemoveListenner = {
                 viewModel.removeById(it.id)
             },
+
             onEditListener = {
-                viewModel.edit(it)
+                editPostContract.launch(it)
             }
         )
 
@@ -96,19 +121,25 @@ class MainActivity : AppCompatActivity() {
             binding.content.setText("")
         }
 
+        binding.add?.setOnClickListener{
+            postContract.launch()
+            
+        }
+
         viewModel.edited.observe(this) { post ->
             if (post.id == 0L) {
-                binding.editGroup.visibility = View.GONE
-                binding.content.setText("")
+                binding.editGroup?.visibility = View.GONE
+                binding.content?.setText("")
             } else {
-                binding.editGroup.visibility = View.VISIBLE
-                binding.content.setText(post.content)
-                binding.content.requestFocus()
+                binding.editGroup?.visibility = View.VISIBLE
+                binding.content?.setText(post.content)
+                binding.content?.requestFocus()
             }
         }
-        binding.cancelEdit.setOnClickListener {
+        binding.cancelEdit?.setOnClickListener {
             viewModel.cancelEditing()
         }
+
 
 
 

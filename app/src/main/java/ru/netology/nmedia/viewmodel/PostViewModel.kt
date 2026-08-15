@@ -44,6 +44,11 @@ class PostViewModel: ViewModel(){
 
         edited.value = emptyPost
     }
+
+    fun saveEdited(post: Post) {
+        repository.save(post)
+        edited.value = emptyPost
+    }
     }
 
 

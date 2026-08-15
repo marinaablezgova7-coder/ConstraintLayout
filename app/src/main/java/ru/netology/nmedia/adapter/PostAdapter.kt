@@ -1,9 +1,12 @@
 package ru.netology.nmedia.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ActionMenuView
 import android.widget.PopupMenu
+import androidx.core.net.toUri
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -67,6 +70,27 @@ class PostViewHolder(
             author.text = post.author
             published.text = post.published
             content.text = post.content
+
+            videoContainer.isVisible = !post.video.isNullOrBlank()
+
+            if (!post.video.isNullOrBlank()) {
+                val videoIntent = Intent(
+                    Intent.ACTION_VIEW,
+                    post.video.toUri()
+                )
+
+                videoContainer.setOnClickListener {
+                    itemView.context.startActivity(videoIntent)
+                }
+
+                videoPlay.setOnClickListener {
+                    itemView.context.startActivity(videoIntent)
+                }
+            } else {
+                videoContainer.setOnClickListener(null)
+                videoPlay.setOnClickListener(null)
+            }
+
 //    likeCount.text = post.likes.toString()
             shareIcon.text = post.shares.toString()
             viewsCount.text = post.views.toString()

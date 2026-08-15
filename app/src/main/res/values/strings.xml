@@ -7,4 +7,8 @@
     <string name="content">Content</string>
     <string name="error_emple_text">Text is blank!</string>
     <string name="edit">Edit</string>
+    <string name="chooser_share_post">Share post</string>
+    <string name="description_post_save">Save</string>
+    <string name="error_empty_content">The string is empty</string>
+    <string name="add_post">Add a post</string>
 </resources>

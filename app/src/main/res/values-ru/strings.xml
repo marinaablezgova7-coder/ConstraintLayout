@@ -8,4 +8,8 @@
     <string name="content">Текст</string>
     <string name="error_emple_text">Тект пустой!</string>
     <string name="edit">Редактировать</string>
+    <string name="chooser_share_post">Поделиться публикацией</string>
+    <string name="error_empty_content">Строка пустая</string>
+    <string name="description_post_save">Сохранить</string>
+    <string name="add_post">Добавить пост</string>
 </resources>
