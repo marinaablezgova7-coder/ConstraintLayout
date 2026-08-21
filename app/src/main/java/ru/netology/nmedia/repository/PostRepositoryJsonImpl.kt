@@ -1,18 +1,23 @@
 package ru.netology.nmedia.repository
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import ru.netology.nmedia.dto.Post
 
-class PostRepositoryInMemoryImpl : PostRepository {
+class PostRepositoryJsonImpl(
+    private val context: Context
+) : PostRepository {
 
-    private var posts: List<Post> = emptyList()
+    private var posts: List<Post> = getPosts()
         set(value) {
             field = value
-            data.value = value
+            sync()
         }
 
-    private var nextId = 1L
+    private var nextId = getId()
 
     private val data = MutableLiveData<List<Post>>(posts)
 
@@ -33,6 +38,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
                 post
             }
         }
+        data.value = posts
     }
 
     override fun shareById(id: Long) {
@@ -45,6 +51,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
                 post
             }
         }
+        data.value = posts
     }
 
     override fun viewsById(id: Long) {
@@ -57,10 +64,12 @@ class PostRepositoryInMemoryImpl : PostRepository {
                 post
             }
         }
+        data.value = posts
     }
 
     override fun removeById(id: Long) {
         posts = posts.filterNot { it.id == id }
+        data.value = posts
     }
 
     override fun save(post: Post) {
@@ -79,8 +88,48 @@ class PostRepositoryInMemoryImpl : PostRepository {
             posts = listOf(newPost) + posts
         } else {
             posts = posts.map {
-                if (it.id == post.id) post else it
+                if (it.id == post.id) {
+                    post
+                } else {
+                    it
+                }
             }
         }
+
+        data.value = posts
+    }
+
+    private fun getPosts(): List<Post> {
+        return context.filesDir
+            .resolve(FILE_NAME)
+            .takeIf { it.exists() }
+            ?.inputStream()
+            ?.bufferedReader()
+            ?.use {
+                gson.fromJson(it, postsType)
+            }
+            ?: emptyList()
+    }
+
+    private fun getId(): Long {
+        return (posts.maxByOrNull { it.id }?.id ?: 0L) + 1L
+    }
+
+    private fun sync() {
+        context.filesDir
+            .resolve(FILE_NAME)
+            .outputStream()
+            .bufferedWriter()
+            .use {
+                it.write(gson.toJson(posts))
+            }
+    }
+
+    private companion object {
+        const val FILE_NAME = "posts.json"
+
+        val gson = Gson()
+
+        val postsType = object : TypeToken<List<Post>>() {}.type
     }
 }
