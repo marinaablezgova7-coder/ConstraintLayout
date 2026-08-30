@@ -1,3 +1,7 @@
+import org.gradle.accessors.dm.LibrariesForLibs
+
+
+
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -45,6 +49,9 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
 
     implementation(libs.gson)
+
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

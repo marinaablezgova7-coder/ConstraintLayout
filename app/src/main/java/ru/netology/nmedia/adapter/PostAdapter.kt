@@ -18,6 +18,7 @@ import ru.netology.nmedia.dto.Post
 typealias  LikeListenner = (Post) -> Unit
 typealias ShareListenner = (Post) -> Unit
 typealias ViewsListenner = (Post) -> Unit
+typealias PostClickListener = (Post) -> Unit
 
 typealias  OnRemoveListenner = (Post) -> Unit
 typealias OnEditListener = (Post) -> Unit
@@ -28,6 +29,7 @@ class PostAdapter(
     private val shareClickListener: ShareListenner,
     private val viewsClickListener: ViewsListenner,
     private val onEditListener: OnEditListener,
+    private val postClickListener: PostClickListener,
 
     private val onRemoveListenner: OnRemoveListenner,
     ): ListAdapter<Post, PostViewHolder>(
@@ -45,6 +47,7 @@ class PostAdapter(
         viewsClickListener,
         onRemoveListenner,
         onEditListener,
+        postClickListener,
         )
 
     override fun onBindViewHolder(
@@ -63,6 +66,8 @@ class PostViewHolder(
     private val viewsClickListener: ViewsListenner,
     private val onRemoveListenner: OnRemoveListenner,
     private val onEditListener: OnEditListener,
+
+    private val postClickListener: PostClickListener,
 
     ) : RecyclerView.ViewHolder(binding.root){
     fun bind(post: Post) {
@@ -138,6 +143,10 @@ class PostViewHolder(
             }
             viewsIcon?.setOnClickListener {
                 viewsClickListener(post)
+            }
+
+            itemView.setOnClickListener {
+                postClickListener(post)
             }
         }
     }
