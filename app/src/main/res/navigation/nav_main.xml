@@ -23,6 +23,10 @@
             android:id="@+id/action_feedFragment_to_postFragment"
             app:destination="@id/postFragment" />
 
+        <action
+            android:id="@+id/action_feedFragment_to_editPostFragment"
+            app:destination="@id/editPostFragment" />
+
     </fragment>
 
     <fragment

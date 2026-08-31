@@ -10,19 +10,24 @@ import ru.netology.nmedia.repository.PostRepository
 import ru.netology.nmedia.repository.PostRepositoryJsonImpl
 private val emptyPost = Post()
 
+class PostViewModel(application: Application) : AndroidViewModel(application) {
 
-class PostViewModel(application: Application): AndroidViewModel(application){
-    private val repository: PostRepository = PostRepositoryJsonImpl(application)
+    private val repository: PostRepository =
+        PostRepositoryJsonImpl(application)
+
     val data: LiveData<List<Post>> = repository.get()
 
     fun likesById(id: Long) = repository.likeById(id)
-    fun shareById(id: Long) { repository.shareById(id) }
+
+    fun shareById(id: Long) {
+        repository.shareById(id)
+    }
 
     fun viewsById(id: Long) = repository.viewsById(id)
 
     fun removeById(id: Long) = repository.removeById(id)
 
-    val  edited = MutableLiveData(emptyPost)
+    val edited = MutableLiveData(emptyPost)
 
     fun edit(post: Post) {
         edited.value = post
@@ -49,6 +54,6 @@ class PostViewModel(application: Application): AndroidViewModel(application){
         repository.save(post)
         edited.value = emptyPost
     }
-    }
+}
 
 

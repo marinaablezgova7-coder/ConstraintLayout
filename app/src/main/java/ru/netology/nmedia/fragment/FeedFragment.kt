@@ -43,12 +43,12 @@ class FeedFragment : Fragment() {
                     type = "text/plain"
                 }
 
-                val shareIntent = Intent.createChooser(
-                    intent,
-                    getString(R.string.chooser_share_post)
+                startActivity(
+                    Intent.createChooser(
+                        intent,
+                        getString(R.string.chooser_share_post)
+                    )
                 )
-
-                startActivity(shareIntent)
             },
 
             viewsClickListener = { post ->
@@ -66,6 +66,13 @@ class FeedFragment : Fragment() {
 
             onEditListener = { post ->
                 viewModel.edit(post)
+
+                findNavController().navigate(
+                    R.id.action_feedFragment_to_editPostFragment,
+                    Bundle().apply {
+                        putSerializable("post", post)
+                    }
+                )
             },
 
             onRemoveListenner = { post ->
@@ -88,4 +95,3 @@ class FeedFragment : Fragment() {
         return binding.root
     }
 }
-
