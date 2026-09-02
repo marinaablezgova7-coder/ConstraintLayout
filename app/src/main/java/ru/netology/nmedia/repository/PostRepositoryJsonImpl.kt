@@ -14,6 +14,7 @@ class PostRepositoryJsonImpl(
     private var posts: List<Post> = getPosts()
         set(value) {
             field = value
+            data.value = value
             sync()
         }
 
@@ -22,6 +23,8 @@ class PostRepositoryJsonImpl(
     private val data = MutableLiveData<List<Post>>(posts)
 
     override fun get(): LiveData<List<Post>> = data
+
+    override fun getAll(): LiveData<List<Post>> = data
 
     override fun likeById(id: Long) {
         posts = posts.map { post ->
@@ -38,7 +41,6 @@ class PostRepositoryJsonImpl(
                 post
             }
         }
-        data.value = posts
     }
 
     override fun shareById(id: Long) {
@@ -51,7 +53,6 @@ class PostRepositoryJsonImpl(
                 post
             }
         }
-        data.value = posts
     }
 
     override fun viewsById(id: Long) {
@@ -64,12 +65,10 @@ class PostRepositoryJsonImpl(
                 post
             }
         }
-        data.value = posts
     }
 
     override fun removeById(id: Long) {
         posts = posts.filterNot { it.id == id }
-        data.value = posts
     }
 
     override fun save(post: Post) {
@@ -95,8 +94,6 @@ class PostRepositoryJsonImpl(
                 }
             }
         }
-
-        data.value = posts
     }
 
     private fun getPosts(): List<Post> {
@@ -133,3 +130,4 @@ class PostRepositoryJsonImpl(
         val postsType = object : TypeToken<List<Post>>() {}.type
     }
 }
+

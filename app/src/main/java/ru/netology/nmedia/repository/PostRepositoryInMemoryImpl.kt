@@ -18,6 +18,8 @@ class PostRepositoryInMemoryImpl : PostRepository {
 
     override fun get(): LiveData<List<Post>> = data
 
+    override fun getAll(): LiveData<List<Post>> = data
+
     override fun likeById(id: Long) {
         posts = posts.map { post ->
             if (post.id == id) {
@@ -84,3 +86,4 @@ class PostRepositoryInMemoryImpl : PostRepository {
         }
     }
 }
+

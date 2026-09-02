@@ -11,4 +11,5 @@ interface PostRepository{
 
     fun removeById(id: Long)
     fun save(post: Post)
+    fun getAll(): LiveData<List<Post>>
 }
