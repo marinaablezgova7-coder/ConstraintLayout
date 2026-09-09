@@ -1,9 +1,7 @@
-import org.gradle.accessors.dm.LibrariesForLibs
-
-
 
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.ksp)
 }
 
 android {
@@ -44,6 +42,10 @@ dependencies {
     implementation(libs.androidx.activity.ktx)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
+
+    implementation(libs.androidx.room3.common.jvm)
+    implementation(libs.androidx.room3.runtime)
+    ksp("androidx.room3:room3-compiler:3.0.2")
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
