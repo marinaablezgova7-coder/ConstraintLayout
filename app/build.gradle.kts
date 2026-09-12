@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -45,6 +46,7 @@ dependencies {
 
     implementation(libs.androidx.room3.common.jvm)
     implementation(libs.androidx.room3.runtime)
+    implementation(libs.firebase.messaging)
     ksp("androidx.room3:room3-compiler:3.0.2")
     implementation(libs.material)
     implementation(libs.androidx.activity)

@@ -15,6 +15,8 @@ import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.ActivityAppBinding
 import ru.netology.nmedia.fragment.NewPostFragment
 import ru.netology.nmedia.fragment.NewPostFragment.Companion.contentArg
+import android.util.Log
+import com.google.firebase.messaging.FirebaseMessaging
 
 class AppActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +28,21 @@ class AppActivity : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             WindowInsetsCompat.CONSUMED
+
+
         }
+
+        FirebaseMessaging.getInstance().token
+            .addOnCompleteListener { task ->
+                if (!task.isSuccessful) {
+                    Log.e("FCM_TOKEN", "Ошибка", task.exception)
+                    return@addOnCompleteListener
+                }
+
+                val token = task.result
+
+                Log.d("FCM_TOKEN", "TOKEN = $token")
+            }
 
        val navHostFragment =  supportFragmentManager.findFragmentById(R.id.container) as NavHostFragment
         val navController =  navHostFragment.navController
@@ -52,6 +68,14 @@ class AppActivity : AppCompatActivity() {
 
             )
 
+
+
+        }
+
+
+
+        FirebaseMessaging.getInstance().token.addOnSuccessListener {
+            println(it)
         }
     }
 }

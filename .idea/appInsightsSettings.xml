@@ -8,10 +8,10 @@
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="ru.netology.nmedia" />
+                  <option name="mobileSdkAppId" value="1:909756644564:android:7a47efc09d127484fd8f41" />
+                  <option name="projectId" value="nmedia-92e53" />
+                  <option name="projectNumber" value="909756644564" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />
